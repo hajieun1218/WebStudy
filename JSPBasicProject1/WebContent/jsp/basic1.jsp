@@ -70,7 +70,7 @@
 			exception : 예외처리 => try ~ catch
 		5) 에러 페이지
 			= 한번에 처리    ==> page 지시자에 존재 (errorPage="이동할 파일명")
-			= 분류해서 처리 ==> 톰캣이 알고 있어야 한다 (web.xml)s
+			= 분류해서 처리 ==> 톰캣이 알고 있어야 한다 (web.xml)
 		6) 액션태그
 			<jsp:include> : HTML과 HTML을 합침
 			<jsp:forward> : 화면은 바뀌지만 URL주소가 안바뀜 (MVC에서 사용)
