@@ -68,13 +68,24 @@ h2 {
 							<%
 								}
 							%>
-							<%=vo.getSubject() %>
 							<%
-								String today=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-								if(today.equals(vo.getRegdate().toString())) {
+								String msg="관리자가 삭제한 게시물입니다.";
+								if(msg.equals(vo.getSubject())) {
 							%>
-									<sup><img src="new.gif"/></sup>
+									<span style="color: #999999"><%=vo.getSubject() %></span>
 							<%
+								}
+								else 
+								{
+							%>
+									<a href="detail.jsp?no=<%=vo.getNo() %>&page=<%=curpage %>"><%=vo.getSubject() %></a>
+							<%
+									String today=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+									if(today.equals(vo.getRegdate().toString())) {
+							%>
+										<sup><img src="new.gif"/></sup>
+							<%
+									}
 								}
 							%>
 							</td>
