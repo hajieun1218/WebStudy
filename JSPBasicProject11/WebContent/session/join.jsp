@@ -17,6 +17,21 @@ function postfind() {
 function idcheck() {
 	window.open("idcheck.jsp","idcheck","width=380,height=230,scrollbars=no")
 }
+function join() {
+	/*
+		태그에 접근 : 계층구조
+			  window
+				|
+			document
+				|
+			   form
+				|
+		input,select,textarea
+	*/
+	// 원래는 입력 안했을때 처리(유효성검사) 해야하는데 너무 많으니까 생략
+	// Spring에서 다시 배움(글자수, 입력하시오, ...)
+	document.frm.submit(); // document: html전체
+}
 </script>
 <style type="text/css">
 .row {
@@ -44,7 +59,7 @@ ADMIN             CHAR(1)
 	<div class="container">
 		<h1 class="text-center">회원가입</h1>
 		<div class="row">
-			<form name="frm">
+			<form name="frm" action="join_ok.jsp" method="post">
 			<table class="table table-hover">
 				<tr>
 					<th width="15%" class="danger text-right">ID</th>
@@ -75,7 +90,7 @@ ADMIN             CHAR(1)
 				<tr>
 					<th width="15%" class="danger text-right">성별</th>
 					<td width="85%">
-						<input type="radio" name="sex" value="남자" checked>남자&nbsp;&nbsp;
+						<input type="radio" name="sex" value="남자" checked>남자
 						<input type="radio" name="sex" value="여자">여자
 					</td>
 				</tr>
@@ -125,7 +140,8 @@ ADMIN             CHAR(1)
 				</tr>
 				<tr>
 					<td colspan="2" class="text-center">
-						<input type="button" value="회원가입" class="btn btn-sm btn-info">
+						<input type="button" value="회원가입" class="btn btn-sm btn-info"
+							onclick="join()">
 						<input type="button" value="취소" class="btn btn-sm btn-success" 
 							onclick="javascript:history.back()">
 					</td>

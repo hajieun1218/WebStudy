@@ -34,7 +34,7 @@ td{
 function postfind() {
 	var dong=document.frm.dong.value;
 	if(dong.trim()==null) {
-		document.frm.dong.focus;
+		document.frm.dong.focus();
 		return;
 	}
 	document.frm.submit();
