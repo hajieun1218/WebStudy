@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	<beans>
+		<bean id="a" class="" jsp="" test="A"/>
+		<bean id="b" class="" test="A"/>
+		<bean id="c" class="" jsp="" test="A"/>
+		<bean id="d" class="" test="A"/>
+		<bean id="e" class="" test="B"/>
+	</beans>
+	
+	<태그>
+		<태그></태그>   <!ELEMENT 태그 (태그명)>
+	</태그>
+	
+	<태그>문자열</태그>   <!ELEMENT 태그 (#PCDATA)>
+	
+	<태그/>   <!ELEMENT 태그 EMPTY> => 값(속성)
+	
+	
+	ID ==> UNIQUE
+	CDATA ==> 문자열(공백을 허용하는 문자열)
+	NOTATION ==> 문자열 (공백을 허용하지 않는 문자열)
+		<a href="" class="btn btn-sm btn-primary"> 
+		href => NOTATION
+		class => CDATA
+	IDREF ==> 참조
+	
+	옵션
+		#REQUIRED : NOT NULL
+		#IMPLIED  : NULL 허용 (속성을 써도되고 안써도 된다 => html은 거의 IMPLIED)
+		#FIXED    : default (속성을 쓰지 않으면 DEFAULT 값으로)
+	
+	REF
+	REFS
+-->
+
+<!ELEMENT beans (bean+)>
+<!ELEMENT bean EMPTY>
+<!ATTLIST bean id ID #REQUIRED
+			   class CDATA #REQUIRED
+			   jsp CDATA #IMPLIED
+			   test CDATA #FIXED 'A'>
+			   
+			   

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- PUBLIC : 공개된 dtd, SYSTEM : 공개되지 않은 dtd -->
+<!DOCTYPE beans SYSTEM "app.dtd">
+<beans>
+	<!-- class는 중복 가능하지만, id는 중복 허용 X -->
+	<bean class="com.sist.dao.BoardDAO" id="bdao"/>
+	<bean class="com.sist.dao.MemberDAO" id="mdao"/>
+</beans>

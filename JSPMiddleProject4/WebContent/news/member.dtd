@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	<member>
+		<list>
+			<no></no>
+			<name></name>
+			<sex></sex>
+			<address></address>
+			<tel></tel>
+			<content></content>
+		</list>
+		<list>
+			<no></no>
+			<name></name>
+			<sex></sex>
+			<address></address>
+			<tel></tel>
+		</list>
+		<list>
+			<no></no>
+			<name></name>
+			<sex></sex>
+			<address></address>
+			<hp></hp>
+			<content></content>
+		</list>
+	</member>
+	
+	list  : 반드시 한번만 태그를 사용한다 (default)
+	list+ : 반드시 한번 이상 태그를 사용할 수 있다
+	list* : 0번 이상(여러번 사용 가능, 안써도 됨)
+	?     : 사용할 수도 있고(한번만) 사용하지 않을 수도 있다
+	|     : 선택
+	
+	<!ELEMENT member (list+)>
+	<!ELEMENT list (no,name,sex,address,(hp|tel),content?)>  => ,는 순서 (순서 틀리면 오류)
+	<!ELEMENT no (#PCDATA)> => 태그와 태그 사이에 문자열(#PCDATA)을 써라
+	<!ELEMENT name (#PCDATA)>
+	<!ELEMENT sex (#PCDATA)>
+	<!ELEMENT address (#PCDATA)>
+	<!ELEMENT hp (#PCDATA)>
+	<!ELEMENT tel (#PCDATA)>
+	<!ELEMENT content (#PCDATA)>
+	
+	
+-->
+
+<!ELEMENT member (list+)>
+<!ELEMENT list (no,name,sex,address,(hp|tel),content?)>
+<!ELEMENT no (#PCDATA)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT sex (#PCDATA)>
+<!ELEMENT address (#PCDATA)>
+<!ELEMENT hp (#PCDATA)>
+<!ELEMENT tel (#PCDATA)>
+<!ELEMENT content (#PCDATA)>
+
+
