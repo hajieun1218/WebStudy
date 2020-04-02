@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- 
+	<<< JOIN >>>
+	
+	SELECT empno,ename,hiredate,dname,loc
+	FROM emp,deptno
+	WHERE emp.deptno=dept.deptno
+	
+	while(rs.next()) {
+		EmpVO vo=new EmpVO();
+		vo.setEmpno(rs.getInt("empno")); // 컬럼이름으로 받는다!!!
+		vo.setEname(rs.getString("ename"));
+		vo.setHiredate(rs.getDate("hiredate"));
+		vo.setDname(rs.getString("dname"));  ==> vo.getDvo().setDname(rs.getString("dname"))
+		vo.setLoc(rs.getString("loc"));      ==> vo.getDvo().setLoc(rs.getString("loc"));
+	}
+	
+ -->
+ <!-- 
+ 	*****JOIN, column명과 변수명이 다를때 사용 *****  => resultMap 안쓰고 alias로 써도 된다
+ 	(컬럼명과 변수명이 동일하면 안써도 된다, 회사에서는 컬럼명을 감추기 위해 다르게 쓰는 경우도 있음) 
+ -->
+<mapper namespace="com.sist.dao.emp-mapper">  
+	<resultMap type="EmpVO" id="empMap">
+		<result column="empno" property="empno"/> <!-- vo.setEmpno(rs.getInt("empno")); -->
+		<result column="ename" property="ename"/>
+		<result column="job" property="job"/>
+		<result column="mgr" property="mgr"/>
+		<result column="hiredate" property="hiredate"/>
+		<result column="sal" property="sal"/>
+		<result column="comm" property="comm"/>
+		<result column="deptno" property="deptno"/>
+		<result column="dname" property="dvo.dname"/>
+		<result column="loc" property="dvo.loc"/>
+	</resultMap>
+	
+	<select id="empAllData" resultMap="empMap">
+		SELECT empno,ename,job,hiredate,sal,dname,loc
+		FROM emp,dept
+		WHERE emp.deptno=dept.deptno
+	</select>
+</mapper>

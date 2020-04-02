@@ -35,7 +35,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class XMLParser extends DefaultHandler{
-	private List<String> list=new ArrayList<String>();
+	private List<String> list=new ArrayList<String>(); // 패키지가 여러개일 수 있으니까 list로 저장
 	
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {

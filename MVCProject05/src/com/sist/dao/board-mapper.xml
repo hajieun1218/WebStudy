@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	PreparedStatement, ResultSet
+	board와 관련된 sql문장   (따로) 
+-->
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.sist.dao.board-mapper">
+	<!-- 
+		목록 
+			public BoardVO boardListData(Map map)
+			
+			Map map=new HashMap();
+			map.put("start",1); // key,값
+			map.put("end",10);
+			
+			#{start}  ==> map.get("start");
+			#{end}    ==> map.get("end");
+			
+			{} ==> get메소드 호출
+			
+			public List<BoardVO> boardListData(Map map)
+			 => selectList()
+	 -->
+	 <!-- parameterType : 매개변수가 2개 이상이면 VO => 만약 VO가 없거나 VO에 없는 값일때는  Map -->
+	 <select id="boardListData" resultType="BoardVO" parameterType="java.util.Map">
+	 	<!--  dbday : 컬럼명에는 없지만 VO에 설정하면 값을 받을 수 있다 -->
+	 	SELECT no,subject,name,regdate,hit,TO_CHAR(regdate,'YYYY-MM-DD') as dbday,num 
+	 	FROM (SELECT no,subject,name,regdate,hit,rownum as num 
+	 	FROM (SELECT no,subject,name,regdate,hit 
+	 	FROM board ORDER BY no DESC))
+	 	WHERE num BETWEEN #{start} AND #{end}
+	 </select>
+	 
+	 
+	 <select id="boardTotalPage" resultType="int">
+	 	SELECT CEIL(COUNT(*)/10.0) FROM board
+	 </select>
+	 
+	 <!-- 반복을 제거할 때 사용 -->
+	 <sql id="where-no"> 
+	 	WHERE no=#{no}
+	 </sql>
+	 
+	 <!-- 상세보기 
+	 		public BoardVO boardDetailData(int no)
+	 		 => selectOne()
+	 		 
+	 		Map map=new HashMap();
+	 		map.put("boardDetailData","SELECT * FROM board WHERE no=#{no}")
+	 -->
+	 <select id="boardDetailData" resultType="BoardVO" parameterType="int">
+	 	SELECT * FROM board
+	 	<include refid="where-no"/>
+	 </select>
+	 
+	 <update id="hitIncrement" parameterType="int">
+	 	UPDATE board SET
+	 	hit=hit+1
+	 	<include refid="where-no"/>
+	 </update>
+	 
+	 <!-- public void boardInsert(BoardVO vo) -->
+	 <insert id="boardInsert" parameterType="BoardVO">
+	 	<!-- 시퀀스   (order: 실행하는 순서 / alias와  keyProperty 값이 반드시 일치)-->
+	 	<selectKey keyProperty="no" resultType="int" order="BEFORE"> 
+	 		SELECT NVL(MAX(no)+1,1) as no FROM board
+	 	</selectKey>
+	 	INSERT INTO board VALUES(#{no},#{name},#{subject},#{content},#{pwd},SYSDATE,0)
+	 </insert>
+	 
+	 <!-- public void boardUpdate(BoardVO vo) -->
+	 <update id="boardUpdate" parameterType="BoardVO">
+	 	UPDATE board SET 
+	 	name=#{name},subject=#{subject},content=#{content},pwd=#{pwd}
+	 	<include refid="where-no"></include>
+	 </update>
+	 
+	 <!-- public void boardDelete(int no) -->
+	 <!-- <delete id="boardDelete" parameterType="int"></delete> -->
+</mapper>
