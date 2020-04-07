@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sist.mapper.member-mapper">
+
+	<!-- 번지에 null값이 있을 수 있어서 NVL (함수를 사용할 떄는 alias사용해야한다!!)-->
+	<select id="postfindData" resultType="ZipcodeVO" parameterType="String">
+		SELECT zipcode,sido,gugun,dong,NVL(bunji,' ') as bunji
+		FROM zipcode
+		WHERE dong LIKE '%'||#{dong}||'%'
+	</select>
+
+</mapper>

@@ -13,6 +13,8 @@
 		<typeAlias type="com.sist.vo.ChefVO" alias="ChefVO"/>
 		<typeAlias type="com.sist.vo.CategoryVO" alias="CategoryVO"/>
 		<typeAlias type="com.sist.vo.FoodVO" alias="FoodVO"/>
+		<typeAlias type="com.sist.vo.MemberVO" alias="MemberVO"/>
+		<typeAlias type="com.sist.vo.ZipcodeVO" alias="ZipcodeVO"/>
 	</typeAliases>
 	
 	<environments default="development">
@@ -44,5 +46,6 @@
 	<mappers>
 		<mapper resource="com/sist/mapper/recipe-mapper.xml"/>  <!-- include -->
 		<mapper resource="com/sist/mapper/main-mapper.xml"/>
+		<mapper resource="com/sist/mapper/member-mapper.xml"/>
 	</mappers>
 </configuration>
