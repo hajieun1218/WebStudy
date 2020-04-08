@@ -72,4 +72,34 @@ public class RecipeDAO {
 		}
 		return total;
 	}
+	
+	public static RecipeDetailVO recipeDetailData(int no) {
+		RecipeDetailVO vo=new RecipeDetailVO();
+		SqlSession session=null;
+		try {
+			session=ssf.openSession();
+			vo=session.selectOne("recipeDetailData",no);
+		} catch(Exception ex) {
+			System.out.println("recipeDetailData(): "+ex.getMessage());
+		} finally {
+			if(session!=null)
+				session.close();
+		}
+		return vo;
+	}
+	
+	public static int recipeCount(int no) {
+		int total=0;
+		SqlSession session=null;
+		try {
+			session=ssf.openSession();
+			total=session.selectOne("recipeCount2",no);
+		} catch(Exception ex) {
+			System.out.println("recipeCount2(): "+ex.getMessage());
+		} finally {
+			if(session!=null)
+				session.close();
+		}
+		return total;
+	}
 }

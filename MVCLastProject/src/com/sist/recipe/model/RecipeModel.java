@@ -95,4 +95,21 @@ public class RecipeModel {
 		
 		return "../main/main.jsp";
 	}
+	
+	@RequestMapping("recipe/recipe_detail.do")
+	public String recipe_recipe_detail(HttpServletRequest request, HttpServletResponse response) {
+		String no=request.getParameter("no");
+		
+		// DAO 연결
+		int count=RecipeDAO.recipeCount(Integer.parseInt(no));
+		if(count!=0) {
+			RecipeDetailVO vo=RecipeDAO.recipeDetailData(Integer.parseInt(no));
+			vo.setFoodmake(vo.getFoodmake().replace("\n", "@"));
+			request.setAttribute("vo", vo);
+		}
+		
+		request.setAttribute("count", count);
+		request.setAttribute("main_jsp", "../recipe/recipe_detail.jsp");
+		return "../main/main.jsp";
+	}
 }
