@@ -102,4 +102,51 @@ public class RecipeDAO {
 		}
 		return total;
 	}
+	
+	public static List<RecipeVO> chefDetailData(Map map) {
+		List<RecipeVO> list=new ArrayList<RecipeVO>();
+		SqlSession session=null;
+		try {
+			session=ssf.openSession();
+			list=session.selectList("chefDetailData", map);
+		} catch(Exception ex) {
+			System.out.println("chefDetailData(): "+ex.getMessage());
+		} finally {
+			if(session!=null)
+				session.close();
+		}
+		return list;
+	}
+	
+	public static int chefDataTotalPage(String chef) {
+		int total=0;
+		SqlSession session=null;
+		try {
+			session=ssf.openSession();
+			total=session.selectOne("chefDataTotalPage", chef);
+		} catch(Exception ex) {
+			System.out.println("chefDataTotalPage(): "+ex.getMessage());
+		} finally {
+			if(session!=null)
+				session.close();
+		}
+		return total;
+	}
+	
+	public static List<RecipeVO> recipeFindData(String fd) {
+		List<RecipeVO> list=new ArrayList<RecipeVO>();
+		SqlSession session=null;
+		try {
+			session=ssf.openSession();
+			Map map=new HashMap();
+			map.put("fd", fd);
+			list=session.selectList("recipeFindData", map);
+		} catch(Exception ex) {
+			System.out.println("recipeFindData(): "+ex.getMessage());
+		} finally {
+			if(session!=null)
+				session.close();
+		}
+		return list;
+	}
 }

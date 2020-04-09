@@ -16,15 +16,15 @@
       	<div class="col-md-3">
     	  <div class="thumbnail">
       		<a href="../recipe/recipe_detail.do?no=${vo.no }">
-        	<img src="${vo.poster }" alt="Lights" style="width:100%">
-          <div class="caption">
-          <p>${vo.title }</p>
-          <p><sub style="color: gray">${vo.chef }</sub></p>
+        	  <img src="${vo.poster }" alt="Lights" style="width:100%">
+              <div class="caption">
+                <p>${vo.title }</p>
+                <p><sub style="color: gray">${vo.chef }</sub></p>
+              </div>
+            </a>
+          </div>
         </div>
-      </a>
-    </div>
-  </div>
-      </c:forEach>
+     </c:forEach>
     </div>
     <!-- ############################################# 페이지  ################################################### -->
     <div class="clear"></div>
