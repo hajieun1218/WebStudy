@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sist.mapper.reply-mapper">
+	
+	<select id="replyListData" resultType="BoardVO" parameterType="hashmap">
+		SELECT no,subject,name,regdate,hit,group_tab,num
+		FROM (SELECT no,subject,name,regdate,hit,group_tab,rownum as num
+		FROM (SELECT no,subject,name,regdate,hit,group_tab 
+		FROM replyBoard ORDER BY group_id DESC, group_step ASC)) <!-- 최신데이터, 답변 순서대로 -->
+		WHERE num BETWEEN #{start} AND #{end}
+	</select>
+	
+	<!-- 이름,제목,내용으로 찾기 (fs:name|subject|content, ss:검색내용) -->
+	<select id="replyFindData" resultType="BoardVO" parameterType="hashmap">
+		SELECT no,subject,name,regdate,hit
+		FROM replyBoard
+		WHERE ${fs} LIKE '%'||#{ss}||'%'
+		<!-- 컬럼명이나 테이블명이 들어왔을때는 $을 붙여야한다
+			  일반데이터는 # -->
+	</select>
+	
+	<select id="replyTotalPage" resultType="int">
+		SELECT CEIL(COUNT(*)/15.0) FROM replyBoard
+	</select>
+	
+	<update id="replyHitIncrement" parameterType="int">
+		UPDATE replyBoard SET hit=hit+1
+		WHERE no=#{no}
+	</update>
+	
+	<select id="replyDetailData" resultType="BoardVO" parameterType="int">
+		SELECT *
+		FROM replyBoard
+		WHERE no=#{no}
+	</select>
+	
+	<!-- 
+	NO         NOT NULL NUMBER         
+	NAME       NOT NULL VARCHAR2(34)   
+	SUBJECT    NOT NULL VARCHAR2(2000) 
+	CONTENT    NOT NULL CLOB           
+	PWD        NOT NULL VARCHAR2(10)   
+	REGDATE             DATE           
+	HIT                 NUMBER         
+	GROUP_ID            NUMBER         
+	GROUP_STEP          NUMBER         
+	GROUP_TAB           NUMBER         
+	ROOT                NUMBER         
+	DEPTH               NUMBER 
+	 -->
+	<insert id="replyInsert" parameterType="BoardVO">
+		<!-- 시퀀스   (order: 실행하는 순서 / alias와  keyProperty 값이 반드시 일치)-->
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(no)+1,1) as no FROM replyBoard
+		</selectKey>
+		<!-- selectKey는 한번만 쓸 수 있다, group_id는 시퀀스가 아님 -> 서브쿼리로 -->
+		INSERT INTO replyBoard(no,name,subject,content,pwd,group_id) VALUES(
+			#{no},
+			#{name},
+			#{subject},
+			#{content},
+			#{pwd},
+			(SELECT NVL(MAX(group_id)+1,1) FROM replyBoard)
+		)
+	</insert>
+	
+	<select id="replyGetPwd" resultType="String" parameterType="int">
+		SELECT pwd FROM replyBoard
+		WHERE no=#{no}
+	</select>
+	
+	<update id="replyUpdate" parameterType="BoardVO">
+		UPDATE replyBoard 
+		SET name=#{name},subject=#{subject},content=#{content}
+		WHERE no=#{no}
+	</update>
+	
+</mapper>

@@ -123,7 +123,7 @@ $(function(){
           	<c:if test="${sessionScope.id!=null }">
               <li><a href="#">자유게시판</a></li>
             </c:if>
-            <li><a href="#">묻고답하기</a></li>
+            <li><a href="../reply/list.do">묻고답하기</a></li>
             <li><a href="#">자료실</a></li>
           </ul>
         </li>

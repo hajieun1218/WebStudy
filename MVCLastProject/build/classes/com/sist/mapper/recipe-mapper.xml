@@ -74,13 +74,14 @@
 		WHERE chef LIKE '%'||#{chef}||'%'
 	</select>
 	
-	<!-- 동적쿼리 -->
+	<!-- 동적쿼리, REGEXP_LIKE -->
 	<select id="recipeFindData" resultType="RecipeVO" parameterType="java.util.Map">
 		SELECT no,title,chef,poster,rownum 
 		FROM recipe
 		WHERE rownum&lt;=21
 		<if test="fd!='전체'">  
-			AND title LIKE '%'||#{fd}||'%'
+			<!-- AND title LIKE '%'||#{fd}||'%' -->
+			AND REGEXP_LIKE(title,#{fd})
 		</if>
 	</select>
 	
