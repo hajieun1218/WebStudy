@@ -149,4 +149,58 @@ public class ReplyBoardModel {
 			
 		return "redirect:../reply/detail.do?no="+no;
 	}
+	
+	@RequestMapping("reply/reply.do")
+	public String reply_reply(HttpServletRequest request, HttpServletResponse response) {
+		String pno=request.getParameter("no");
+		
+		request.setAttribute("pno", pno); // 상위번호 parent no
+		request.setAttribute("main_jsp", "../reply/reply.jsp");
+		return "../main/main.jsp";
+	}
+	
+	@RequestMapping("reply/reply_ok.do")
+	public String reply_reply_ok(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch(Exception ex) {}
+		String pno=request.getParameter("pno");
+		String name=request.getParameter("name");
+		String subject=request.getParameter("subject");
+		String content=request.getParameter("content");
+		String pwd=request.getParameter("pwd");
+		
+		BoardVO vo=new BoardVO();
+		vo.setName(name);
+		vo.setSubject(subject);
+		vo.setContent(content);
+		vo.setPwd(pwd);
+		
+		// DAO 연결
+		ReplyBoardDAO.replyReplyInsert(Integer.parseInt(pno), vo);
+		
+		//reply_list(request, response); // request가 계속 바뀌기 때문에 직접 호출 X
+		return "redirect:../reply/list.do"; // .do : 메소드 재호출
+	}
+	
+	@RequestMapping("reply/delete.do")
+	public String reply_delete(HttpServletRequest request, HttpServletResponse response) {
+		String no=request.getParameter("no");
+		
+		request.setAttribute("no", no);
+		request.setAttribute("main_jsp", "../reply/delete.jsp");
+		return "../main/main.jsp";
+	}
+	
+	@RequestMapping("reply/delete_ok.do")
+	public String reply_delete_ok(HttpServletRequest request, HttpServletResponse response) {
+		String no=request.getParameter("no");
+		String pwd=request.getParameter("pwd");
+		
+		// DAO
+		boolean bCheck=ReplyBoardDAO.replyDelete(Integer.parseInt(no), pwd);
+		
+		request.setAttribute("bCheck", bCheck);
+		return "../reply/delete_ok.jsp";
+	}
 }

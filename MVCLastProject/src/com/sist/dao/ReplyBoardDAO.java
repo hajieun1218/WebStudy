@@ -119,4 +119,67 @@ public class ReplyBoardDAO {
 				session.close();
 		}
 	}
+	
+	public static void replyReplyInsert(int pno, BoardVO vo) {
+		SqlSession session=null;
+		try {
+			session=ssf.openSession();
+			BoardVO pvo=session.selectOne("replyParentInfoData", pno);
+			session.update("replyGroupStepIncrement", pvo);
+			
+			// replyReplyInsert
+			vo.setGroup_id(pvo.getGroup_id());
+			vo.setGroup_step(pvo.getGroup_step()+1);
+			vo.setGroup_tab(pvo.getGroup_tab()+1);
+			vo.setRoot(pno);
+			
+			session.insert("replyReplyInsert", vo);
+			session.update("replyDepthIncrement", pno);
+			
+			session.commit();
+			
+		} catch(Exception ex) {
+			System.out.println("replyReplyInsert(): "+ex.getMessage());
+			session.rollback(); // mybatis에서의 트랜젝션 프로그램
+		} finally {
+			if(session!=null)
+				session.close();
+		}
+	}
+	
+	public static boolean replyDelete(int no, String pwd) {
+		boolean bCheck=false;
+		SqlSession session=null;
+		try {
+			session=ssf.openSession();
+			String db_pwd=session.selectOne("replyGetPwd", no);
+			if(db_pwd.equals(pwd)) {
+				bCheck=true;
+				BoardVO vo=session.selectOne("replyDeleteInfoData", no);
+				if(vo.getDepth()==0) {
+					session.delete("replyDelete", no);
+				}
+				else {
+					vo.setSubject("관리자가 삭제한 게시물입니다.");
+					vo.setContent("관리자가 삭제한 게시물입니다.");
+					vo.setNo(no);
+					session.update("replySubjectUpdate", vo);
+				}
+				// 상위번호(root)의 depth 감소 
+				session.update("replyDepthDecrement", vo.getRoot());
+			}
+			else {
+				bCheck=false;
+			}
+			
+			session.commit();
+		} catch (Exception ex) {
+			System.out.println("replyDelete(): "+ex.getMessage());
+			session.rollback();
+		} finally {
+			if(session!=null)
+				session.close();
+		}
+		return bCheck;
+	}
 }
