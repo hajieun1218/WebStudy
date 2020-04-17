@@ -14,6 +14,7 @@ public class BoardVO {
 	private String content;
 	private String pwd;
 	private Date regdate;
+	private String dbday;
 	private int hit;
 	private int group_id;
 	private int group_step;
