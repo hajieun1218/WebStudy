@@ -25,8 +25,7 @@ td {
 	<div class="wrapper row2">
 		<div id="services" class="clear">
 			<div class="row text-center">
-				<img src="../freeboard/jsp_board2.png"
-					style="width: 900px; height: 200px;">
+				<img src="../freeboard/jsp_board2.png" style="width: 900px; height: 200px;">
 			</div>
 			<div class="row">
 				<form method="post" action="../freeboard/udpate_ok.do">

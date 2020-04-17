@@ -193,4 +193,75 @@ public class FreeBoardDAO {
 		return vo;
 	}
 	
+	
+	/*
+	    CREATE OR REPLACE PROCEDURE boardUpdate(
+	    pno board.no%TYPE,
+	    pName board.name%TYPE,
+	    pSubject board.subject%TYPE,
+	    pContent board.content%TYPE,
+	    pPwd board.pwd%TYPE,
+	    pResult OUT VARCHAR2 -- 매개변수는 몇글자인지 쓰지 않는다
+)
+	 */
+	// 수정하기 update_ok
+	public boolean freeboardUpdate(BoardVO vo) {
+		boolean bCheck=false;
+		try {
+			getConnection();
+			String sql="{CALL boardUpdate(?,?,?,?,?,?)}";
+			cs=conn.prepareCall(sql);
+			
+			cs.setInt(1, vo.getNo());
+			cs.setString(2, vo.getName());
+			cs.setString(3, vo.getSubject());
+			cs.setString(4, vo.getContent());
+			cs.setString(5, vo.getPwd());
+			cs.registerOutParameter(6, OracleTypes.VARCHAR);
+			
+			cs.executeUpdate();
+			String result=cs.getString(6);
+			
+			bCheck=Boolean.parseBoolean(result);
+			
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			disConnection();
+		}
+		return bCheck;
+	}
+	
+	
+	/*
+		CREATE OR REPLACE PROCEDURE boardDelete(
+	    pno board.no%TYPE,
+	    pPwd board.pwd%TYPE,
+	    pResult OUT VARCHAR2
+)
+	 */
+	public boolean freeboardDelete(int no, String pwd) {
+		boolean bCheck=false;
+		try {
+			getConnection();
+			String sql="{CALL boardDelete(?,?,?)}";
+			cs=conn.prepareCall(sql);
+			
+			cs.setInt(1, no);
+			cs.setString(2, pwd);
+			cs.registerOutParameter(3, OracleTypes.VARCHAR);
+			
+			cs.executeUpdate();
+			String result=cs.getString(3);
+			
+			bCheck=Boolean.parseBoolean(result);
+			
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			disConnection();
+		}
+		return bCheck;
+	}
+	
 }

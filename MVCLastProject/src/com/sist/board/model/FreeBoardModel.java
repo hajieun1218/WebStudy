@@ -93,4 +93,60 @@ public class FreeBoardModel {
 		request.setAttribute("main_jsp", "../freeboard/update.jsp");
 		return "../main/main.jsp";
 	}
+	
+	@RequestMapping("freeboard/udpate_ok.do")
+	public String freeboard_update_ok(HttpServletRequest request, HttpServletResponse response) {
+		
+		// 사용자가 보낸 데이터를 받는다
+		// 매개변수가 3개 이상이면 클래스로 묶어서 전송 (VO)
+		// 구조체(여러변수를 묶어준다)-C언어 ==> 클래스-자바
+		try {
+			request.setCharacterEncoding("UTF-8"); // 디코딩 (송신:인코딩, 수신:디코딩)
+		} catch(Exception ex) {}
+		
+		String no=request.getParameter("no");
+		String name=request.getParameter("name");
+		String subject=request.getParameter("subject");
+		String content=request.getParameter("content");
+		String pwd=request.getParameter("pwd");
+		
+		BoardVO vo=new BoardVO();
+		vo.setNo(Integer.parseInt(no));
+		vo.setName(name);
+		vo.setSubject(subject);
+		vo.setContent(content);
+		vo.setPwd(pwd);
+		
+		// DAO로 전송 => DAO에서 오라클로 보내준다
+		FreeBoardDAO dao=new FreeBoardDAO();
+		Boolean bCheck=dao.freeboardUpdate(vo);
+		
+		request.setAttribute("bCheck", bCheck);
+		request.setAttribute("no", no);
+		return "../freeboard/update_ok.jsp";
+	}
+	
+	@RequestMapping("freeboard/delete.do")
+	public String freeboard_delete(HttpServletRequest request, HttpServletResponse response) {
+		
+		String no=request.getParameter("no");
+		
+		request.setAttribute("no", no);
+		request.setAttribute("main_jsp", "../freeboard/delete.jsp");
+		return "../main/main.jsp";
+	}
+	
+	@RequestMapping("freeboard/delete_ok.do")
+	public String freeboard_delete_ok(HttpServletRequest request, HttpServletResponse response) {
+		
+		String no=request.getParameter("no");
+		String pwd=request.getParameter("pwd");
+		
+		FreeBoardDAO dao=new FreeBoardDAO();
+		boolean bCheck=dao.freeboardDelete(Integer.parseInt(no), pwd);
+		
+		request.setAttribute("bCheck", bCheck);
+		return "../freeboard/delete_ok.jsp";
+	}
+	
 }
