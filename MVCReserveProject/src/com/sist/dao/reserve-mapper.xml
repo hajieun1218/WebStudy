@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sist.dao.reserve-mapper">
+	
+	<!-- type=1 현재상영영화 -->
+	<select id="movieListData" resultType="MovieVO">
+		SELECT mno,title,poster,score,theaterNo
+		FROM movie
+		WHERE type=1
+	</select>
+
+	<!-- 영화마다 어디극장에서 상영하는지 랜덤으로 데이터 넣기-->
+	<update id="movieTheaterUpdate" parameterType="MovieVO">
+		UPDATE movie SET
+		theaterNo=#{theaterNo}
+		WHERE mno=#{mno}
+	</update>
+	
+	<select id="movieTheaterData" resultType="ReserveTheaterVO" parameterType="int">
+		SELECT tno,tname,tloc,tdate
+		FROM reserveTheater
+		WHERE tno=#{tno}
+	</select>
+</mapper>
