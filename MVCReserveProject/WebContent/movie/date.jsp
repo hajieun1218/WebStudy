@@ -6,6 +6,61 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+<script type="text/javascript">
+$(function(){
+	
+	$('.rdate').hover(function(){
+		$(this).css("cursor","pointer");
+	},function(){
+		$(this).css("cursor","none");
+	})
+	
+	$('#year').change(function(){
+		var year=$(this).val();
+		var month=$('#month').val();
+		$.ajax({
+			type:'post',
+			url:'date.do',
+			data:{"year":year,"month":month},
+			success:function(res) {
+				$('#movie-date').html(res);
+			}
+		})
+	})
+	$('#month').change(function(){
+		var year=$('#year').val();
+		var month=$(this).val();
+		$.ajax({
+			type:'post',
+			url:'date.do',
+			data:{"year":year,"month":month},
+			success:function(res) {
+				$('#movie-date').html(res);
+			}
+		})
+	})
+	
+	$('.rdate').click(function(){
+		var year=$('#year').val();
+		var month=$('#month').val();
+		var day=$(this).text();
+		
+		var rday=year+"년 "+month+"월 "+day+"일";
+		$('#movie-date2').text(rday);
+		
+		$.ajax({
+			type:'post',
+			url:'time.do',
+			data:{"tno":day},
+			success:function(res){
+				$('#movie-time').html(res);
+			}
+		})
+	})
+	
+});
+</script>
 </head>
 <body>
 	<div class="row" style="margin: 0px auto; width: 300px;">
@@ -13,7 +68,7 @@
 		<table class="table">
 			<tr>
 				<td>
-					<select name="year">
+					<select name="year" id="year">
 						<c:forEach var="i" begin="2020" end="2030">
 							<c:if test="${i==year }">
 								<option seleced>${i }</option>
@@ -23,7 +78,7 @@
 							</c:if>
 						</c:forEach>
 					</select>년도&nbsp;
-					<select name="month">
+					<select name="month" id="month">
 						<c:forEach var="i" begin="1" end="12">
 							<c:if test="${i==month }">
 								<option seleced>${i }</option>
@@ -51,7 +106,14 @@
 							<td>&nbsp;</td>
 						</c:forEach>
 				</c:if>
-				<td class="text-center">${i }</td>
+				
+				<c:if test="${i==days[i-1] }">
+					<td class="text-center success rdate">${i }</td>
+				</c:if>
+				<c:if test="${i!=days[i-1] }">
+					<td class="text-center">${i }</td>
+				</c:if>
+				
 				<c:set var="week" value="${week+1 }"/> <!-- week++이 안되므로 c:set을 이용하여 week를 1씩 증가한다 -->
 				<c:if test="${week>6 }">
 					<c:set var="week" value="0"/>

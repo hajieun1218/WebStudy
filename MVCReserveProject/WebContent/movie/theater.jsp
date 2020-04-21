@@ -6,13 +6,44 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('.theater').hover(function(){
+		$(this).css("cursor","pointer");
+	},function(){
+		$(this).css("cursor","none");
+	})
+	
+	$('.theater').click(function(){
+		var data=$(this).text().trim();
+		var loc=data.substring(1,data.lastIndexOf(']'));
+		var name=data.substring(data.indexOf(']')+2);
+		//alert("loc="+loc+"\nname="+name);
+		var theater=name+"("+loc+")";
+		$('#movie-theater2').text(theater);
+		
+		var year=$('#year').val();
+		var month=$('#month').val();
+		var rdate=$(this).attr("data-date");
+		$.ajax({
+			type:'post',
+			url:'date.do',
+			data:{"year":year,"month":month,"rdate":rdate},
+			success:function(res){
+				$('#movie-date').html(res);
+			}
+		})
+	})
+})
+</script>
 </head>
 <body>
 	<div class="row" style="margin: 0px auto; width: 200px; height: 500px;">
 		<table class="table">
 			<c:forEach var="vo" items="${tList }">
 				<tr>
-					<td>
+					<td class="theater" data-date="${vo.tdate }">
 						[${vo.tloc }]&nbsp;${vo.tname }
 					</td>
 				</tr>

@@ -85,25 +85,25 @@ $(function(){
 							<tr>
 								<td>
 									<span style="color: #999">극장</span>
-									<span id="movie-theater"></span>
+									<span id="movie-theater2"></span>
 								</td>
 							</tr>
 							<tr>
 								<td>
 									<span style="color: #999">날짜</span>
-									<span id="movie-date"></span>
+									<span id="movie-date2"></span>
 								</td>
 							</tr>
 							<tr>
 								<td>
 									<span style="color: #999">시간</span>
-									<span id="movie-time"></span>
+									<span id="movie-time2"></span>
 								</td>
 							</tr>
 							<tr>
 								<td>
 									<span style="color: #999">인원</span>
-									<span id="movie-inwon"></span>
+									<span id="movie-inwon2"></span>
 								</td>
 							</tr>
 							<tr>
@@ -114,7 +114,7 @@ $(function(){
 							</tr>
 							<tr>
 								<td class="text-center">
-									<input type="button" value="예매하기" class="btn btn-sm btn-danger">
+									<input type="button" value="예매하기" class="btn btn-sm btn-danger" id="resBtn" disabled>
 								</td>
 							</tr>
 						</table>
@@ -127,6 +127,7 @@ $(function(){
 								<td bgcolor="#ccccff" class="text-center">시간선택</td>
 							</tr>
 						</table>
+						<div id="movie-time"></div>
 					</td>
 					<td width="20%" height="200">
 						<table class="table">
@@ -134,6 +135,7 @@ $(function(){
 								<td bgcolor="#ccccff" class="text-center">인원선택</td>
 							</tr>
 						</table>
+						<div id="movie-inwon"></div>
 					</td>
 				</tr>
 			</table>

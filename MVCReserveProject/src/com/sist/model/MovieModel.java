@@ -3,11 +3,14 @@ package com.sist.model;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.eclipse.jdt.internal.compiler.parser.ParserBasicInformation;
+
 import com.sist.controller.Controller;
 import com.sist.controller.RequestMapping;
 import com.sist.dao.MovieDAO;
 import com.sist.dao.MovieVO;
 import com.sist.dao.ReserveTheaterVO;
+import com.sun.org.apache.xerces.internal.util.ParserConfigurationSettings;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -54,6 +57,9 @@ public class MovieModel {
 		String strYear=request.getParameter("year");
 		String strMonth=request.getParameter("month");
 		
+		String reserve_date=request.getParameter("rdate");
+		//System.out.println("reserve_date: "+reserve_date);
+		
 		String today=new SimpleDateFormat("yyyy-M-d").format(new Date());
 		StringTokenizer st=new StringTokenizer(today,"-");
 		
@@ -92,14 +98,68 @@ public class MovieModel {
 		
 		int week=total%7; // 1일의 요일
 		
+		int[] days=new int[31];
+		if(reserve_date!=null) {
+			StringTokenizer st1=new StringTokenizer(reserve_date,",");
+			while(st1.hasMoreTokens()) {
+				int p=Integer.parseInt(st1.nextToken());
+				if(p>=day)
+					days[p-1]=p;
+			}
+		}
+		
 		request.setAttribute("year", year);
 		request.setAttribute("month", month);
 		request.setAttribute("day", day);
 		request.setAttribute("strWeek", strWeek);
 		request.setAttribute("week", week);  // 무슨요일부터 출력할건지
 		request.setAttribute("lastday", lastDay[month-1]); // 1~며칠까지 출력할건지
+		request.setAttribute("days", days);
 		
 		return "date.jsp";
+	}
+	
+	@RequestMapping("movie/time.do")
+	public String movie_time(HttpServletRequest request, HttpServletResponse response) {
+		
+		String tno=request.getParameter("tno");
+		String times=MovieDAO.movieTimeData(Integer.parseInt(tno));
+		// 1,4,5,6,9,...
+		StringTokenizer st=new StringTokenizer(times,",");
+		List<String> list=new ArrayList<String>();
+		while(st.hasMoreTokens()) {
+			String time=MovieDAO.movieTimeData2(Integer.parseInt(st.nextToken()));
+			list.add(time);
+		}
+		
+		request.setAttribute("tList", list);
+		
+		return "time.jsp";
+	}
+	
+	@RequestMapping("movie/inwon.do")
+	public String movie_inwon(HttpServletRequest request, HttpServletResponse response) {
+		
+		return "inwon.jsp";
+	}
+	
+	// 로그인----------------------------------
+	
+	@RequestMapping("movie/login.do") 
+	public String movie_login(HttpServletRequest request, HttpServletResponse response) {
+		
+		return "login.jsp";
+	}
+	
+	@RequestMapping("movie/login_ok.do") 
+	public String movie_login_ok(HttpServletRequest request, HttpServletResponse response) {
+		
+		String id=request.getParameter("id");
+		String pwd=request.getParameter("pwd");
+		
+		// DAO
+		
+		return "login_ok.jsp";
 	}
 	
 }

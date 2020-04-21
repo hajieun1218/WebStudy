@@ -65,4 +65,60 @@ public class MovieDAO {
 		}
 		return vo;
 	}
+	
+	public static void movieDateUpdate(ReserveTheaterVO vo) {
+		SqlSession session=null;
+		try {
+			session=ssf.openSession(true);
+			session.update("movieDateUpdate",vo);
+		} catch(Exception ex) {
+			System.out.println("movieDateUpdate(): "+ex.getMessage());
+		} finally {
+			if(session!=null)
+				session.close();
+		}
+	}
+	
+	public static void movieTimeUpdate(ReserveDateVO vo) {
+		SqlSession session=null;
+		try {
+			session=ssf.openSession(true);
+			session.update("movieTimeUpdate",vo);
+		} catch(Exception ex) {
+			System.out.println("movieTimeUpdate(): "+ex.getMessage());
+		} finally {
+			if(session!=null)
+				session.close();
+		}
+	}
+	
+	public static String movieTimeData(int tno) {
+		String result="";
+		SqlSession session=null;
+		try {
+			session=ssf.openSession();
+			result=session.selectOne("movieTimeData", tno);
+		} catch(Exception ex) {
+			System.out.println("movieTimeData(): "+ex.getMessage());
+		} finally {
+			if(session!=null)
+				session.close();
+		}
+		return result;
+	}
+	
+	public static String movieTimeData2(int tno) {
+		String result="";
+		SqlSession session=null;
+		try {
+			session=ssf.openSession();
+			result=session.selectOne("movieTimeData2", tno);
+		} catch(Exception ex) {
+			System.out.println("movieTimeData2(): "+ex.getMessage());
+		} finally {
+			if(session!=null)
+				session.close();
+		}
+		return result;
+	}
 }
