@@ -25,5 +25,8 @@ public class ReserveVO {
 	private String rtime;
 	private String rinwon;
 	private String rprice;
+	
 	private String isreserve;
+	private String poster;
+	private String title;
 }

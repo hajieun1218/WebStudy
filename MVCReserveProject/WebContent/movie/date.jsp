@@ -48,6 +48,7 @@ $(function(){
 		
 		var rday=year+"년 "+month+"월 "+day+"일";
 		$('#movie-date2').text(rday);
+		$('#rdate').val(rday); // reserve의 hidden
 		
 		$.ajax({
 			type:'post',

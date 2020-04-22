@@ -35,6 +35,10 @@ $(function(){
 		$('#movie-inwon2').text(res);
 		$('#movie-price').text(p);
 		
+		// reserve의 hidden
+		$('#rinwon').val(res);
+		$('#rprice').val(p);
+		
 		$('#resBtn').attr('disabled', false);
 	})
 })

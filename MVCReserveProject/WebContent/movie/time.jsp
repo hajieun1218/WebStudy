@@ -24,6 +24,7 @@ $(function(){
 		
 		var t=h+"시 "+m+"분";
 		$('#movie-time2').text(t);
+		$('#rtime').val(t); // reserve의 hidden
 		
 		$.ajax({
 			type:'post',
