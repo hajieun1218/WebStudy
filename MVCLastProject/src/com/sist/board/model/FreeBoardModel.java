@@ -9,6 +9,7 @@ import com.sist.controller.RequestMapping;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import com.sist.dao.*;
+import com.sist.vo.BoardReplyVO;
 import com.sist.vo.BoardVO;
 
 @Controller
@@ -71,12 +72,33 @@ public class FreeBoardModel {
 	@RequestMapping("freeboard/detail.do")
 	public String freeboard_detail(HttpServletRequest request, HttpServletResponse response) {
 		
-		String no=request.getParameter("no");
+		String no=request.getParameter("no"); // bno
+		String page=request.getParameter("page"); // 댓글 페이지
+		if(page==null)
+			page="1";
+		int curpage=Integer.parseInt(page);
+		
+		Map map=new HashMap();
+		int rowSize=10;
+		int start=(rowSize*curpage)-(rowSize-1);
+		int end=rowSize*curpage;
+		map.put("pStart", start);
+		map.put("pEnd", end);
+		map.put("pBno", Integer.parseInt(no));
+		List<BoardReplyVO> list=FreeBoardReplyDAO.replyListData(map);
+		
+		map=new HashMap();
+		map.put("pBno", Integer.parseInt(no));
+		int totalpage=FreeBoardReplyDAO.replyTotalPage(map);
 		
 		FreeBoardDAO dao=new FreeBoardDAO();
 		BoardVO vo=dao.freeboardInfoData(Integer.parseInt(no), 1); // type=1 상세보기, type=2 수정하기
 		
+		request.setAttribute("list", list);
+		request.setAttribute("curpage", curpage);
+		request.setAttribute("totalpage", totalpage);
 		request.setAttribute("vo", vo);
+		
 		request.setAttribute("main_jsp", "../freeboard/detail.jsp");
 		return "../main/main.jsp";
 	}
@@ -148,5 +170,6 @@ public class FreeBoardModel {
 		request.setAttribute("bCheck", bCheck);
 		return "../freeboard/delete_ok.jsp";
 	}
+	
 	
 }

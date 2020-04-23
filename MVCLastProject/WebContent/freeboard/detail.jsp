@@ -53,6 +53,35 @@ td{
 					</td>
 				</tr>
 			</table>
+			<div style="height: 20px;"></div>
+			<table class="table">
+				<c:forEach var="rvo" items="${list }">
+					<tr>
+						<td class="text-left">
+							${rvo.name }&nbsp;<span style="color: #999">(${rvo.dbday })</span>
+						</td>
+						<td class="text-right">
+							<c:if test="${sessionScope.id==rvo.id }">
+								<a href="#" class="btn btn-xs btn-primary">수정</a>
+								<a href="#" class="btn btn-xs btn-danger">삭제</a>
+							</c:if>
+							<a href="#" class="btn btn-xs btn-success">댓글</a>
+						</td>
+					</tr>	
+					<tr>
+						<td colspan="2" class="text-left" valign="top">
+							<pre style="white-space: pre-wrap;">${rvo.msg }</pre> <!-- 칸이 넘어가면 자동줄바꿈 -->
+						</td>
+					</tr>	
+				</c:forEach>
+				<tr>
+					<td class="text-center" colspan="2">
+						<a href="#" class="btn btn-xs btn-danger">이전</a>
+						${curpage } page / ${totalpage } pages
+						<a href="#" class="btn btn-xs btn-danger">다음</a>
+					</td>
+				</tr>
+			</table>
   		</div>
   	</div>
 </div>
