@@ -76,4 +76,42 @@ public class FreeBoardReplyDAO {
 		return total;
 	}
 	
+	public static void replyUpdate(Map map) {
+		SqlSession session=null;
+		try {
+			session=ssf.openSession();
+			session.update("replyUpdate2", map); // 프로시저 호출
+		} catch(Exception ex) {
+			System.out.println("replyUpdate2(): "+ex.getMessage());
+		} finally {
+			if(session!=null)
+				session.close();
+		}
+	}
+	
+	public static void replyReplyInsert(Map map) {
+		SqlSession session=null;
+		try {
+			session=ssf.openSession();
+			session.update("replyReplyInsert2", map); // 프로시저 호출
+		} catch(Exception ex) {
+			System.out.println("replyReplyInsert2(): "+ex.getMessage());
+		} finally {
+			if(session!=null)
+				session.close();
+		}
+	}
+	
+	public static void replyDelete(Map map) {
+		SqlSession session=null;
+		try {
+			session=ssf.openSession();
+			session.update("replyDelete2", map); // 프로시저 호출
+		} catch(Exception ex) {
+			System.out.println("replyDelete2(): "+ex.getMessage());
+		} finally {
+			if(session!=null)
+				session.close();
+		}
+	}
 }
